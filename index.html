@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1769aa">
+<meta name="description" content="AAPA accompagne les élèves du collège et du lycée dans leurs apprentissages et leur orientation.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>AAPA — Construis ton avenir</title>
+<style>
+:root{--blue:#1769aa;--blue2:#0e4f86;--pale:#eaf4fc;--yellow:#f5c542;--ink:#17324b;--muted:#64788a;--line:#dce7ef;--bg:#f5f8fb}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,var(--blue2),var(--blue));color:white;padding:22px 18px 28px;border-radius:0 0 24px 24px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:25px;font-weight:850;letter-spacing:1px}.tag{font-size:12px;opacity:.9}.pill{background:#ffffff22;border:1px solid #ffffff55;padding:7px 10px;border-radius:99px;font-size:12px}
+main{max-width:760px;margin:auto;padding:16px 15px 92px}.hero{padding:17px 0 3px}.hero h1{font-size:25px;line-height:1.15;margin:7px 0}.hero p{margin:8px 0;color:#e6f3ff;line-height:1.5;font-size:14px}
+.card{background:white;border:1px solid var(--line);border-radius:17px;padding:16px;margin:13px 0;box-shadow:0 3px 12px #17324b08}
+h2{font-size:18px;margin:0 0 10px}h3{font-size:15px;margin:0 0 6px}.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px;text-align:left;min-height:100px;cursor:pointer;color:var(--ink)}.tile b{display:block;margin:7px 0 3px}.tile span{font-size:12px;color:var(--muted)}.emoji{font-size:23px}
+button{font:inherit;cursor:pointer}.primary,.secondary,.ghost{border:0;border-radius:12px;padding:12px 15px;font-weight:700}.primary{background:var(--blue);color:white}.secondary{background:var(--pale);color:var(--blue2)}.ghost{background:transparent;color:var(--blue);padding:8px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:11px;padding:12px;font:inherit;background:white;color:var(--ink);margin:6px 0 12px}
+label{font-size:13px;font-weight:650} .choice{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;font-size:14px}.choice input{width:auto;margin:3px 0}
+.bar{height:8px;background:#e8eff5;border-radius:20px;overflow:hidden;margin:10px 0}.bar>i{display:block;height:100%;background:var(--yellow);width:0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{background:none;border:0;color:var(--muted);font-size:11px;display:grid;gap:3px;justify-items:center}nav button strong{font-size:19px;font-weight:500}nav button.active{color:var(--blue);font-weight:800}
+.badge{display:inline-block;background:#fff4cc;color:#755400;border-radius:99px;padding:5px 9px;font-size:11px;font-weight:700}
+.hidden{display:none!important}.row{display:flex;align-items:center;justify-content:space-between;gap:10px}.listitem{padding:12px 0;border-bottom:1px solid var(--line)}.listitem:last-child{border:0}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:18px}
+@media(min-width:620px){main{padding-top:24px}.hero h1{font-size:31px}.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div><div class="brand">AAPA<span style="color:var(--yellow)">.</span></div><div class="tag">Apprendre · Découvrir · S'orienter</div></div><span class="pill" id="rolePill">Découverte</span></div>
+ <div class="hero"><h1>Construis ton avenir.</h1><p>Une application d'accompagnement des parcours et des aptitudes pour les élèves du collège et du lycée.</p></div>
+</header>
+<main id="app"></main>
+<nav>
+ <button data-page="home" class="active"><strong>⌂</strong>Accueil</button>
+ <button data-page="learn"><strong>▤</strong>Cours</button>
+ <button data-page="test"><strong>✓</strong>Aptitudes</button>
+ <button data-page="profile"><strong>◉</strong>Profil</button>
+</nav>
+<script>
+const app=document.getElementById('app');
+let role=localStorage.getItem('aapa_role')||'';
+let name=localStorage.getItem('aapa_name')||'';
+let page='home';
+const courses=[
+ {title:'Mieux se connaître',level:'Collège & lycée',desc:'Découvrir ses intérêts, ses qualités et ses façons d’apprendre.',tag:'Orientation'},
+ {title:'Résoudre un problème',level:'Collège',desc:'Développer le raisonnement et la méthode.',tag:'Compétences'},
+ {title:'Préparer son projet d’avenir',level:'Lycée',desc:'Relier ses centres d’intérêt aux métiers et aux formations.',tag:'Projet'}
+];
+const questions=[
+ {q:'Quelle activité te motive le plus ?',a:['Résoudre des problèmes et faire des calculs','Aider, expliquer ou accompagner les autres','Créer, dessiner ou imaginer des projets','Construire, réparer ou manipuler des objets']},
+ {q:'Dans un travail de groupe, tu préfères…',a:['Analyser les informations','Écouter et soutenir le groupe','Proposer des idées originales','Organiser les tâches et passer à l’action']},
+ {q:'Quel type de défi aimerais-tu relever ?',a:['Comprendre comment fonctionne un système','Améliorer la vie des personnes','Créer quelque chose de nouveau','Réaliser un projet concret']}
+];
+let answers=JSON.parse(localStorage.getItem('aapa_answers')||'[]');
+function save(){localStorage.setItem('aapa_role',role);localStorage.setItem('aapa_name',name);localStorage.setItem('aapa_answers',JSON.stringify(answers))}
+function go(p){page=p;render();document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===p))}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>go(b.dataset.page));
+function render(){
+ document.getElementById('rolePill').textContent=role?role:'Découverte';
+ if(page==='home') home(); if(page==='learn') learn(); if(page==='test') test(); if(page==='profile') profile();
+}
+function home(){
+ app.innerHTML=`<section class="card"><span class="badge">PREMIÈRE VERSION • BÊTA</span><h2 style="margin-top:10px">Bienvenue${name?' '+esc(name):' sur AAPA'} !</h2><p class="muted">Explore tes apprentissages, découvre tes aptitudes et prépare ton parcours avec l'accompagnement de tes enseignants.</p>${role?'':`<h3>Commencer</h3><label>Ton prénom</label><input id="nm" placeholder="Ex. Nadia"><label>Je suis…</label><select id="rl"><option value="">Choisir un profil</option><option>Élève</option><option>Enseignant</option></select><button class="primary" onclick="start()">Continuer</button>`}</section>
+ <h2>Les espaces AAPA</h2><div class="grid">
+ <button class="tile" onclick="go('test')"><div class="emoji">🧭</div><b>Mes aptitudes</b><span>Questionnaire d'orientation</span></button>
+ <button class="tile" onclick="go('learn')"><div class="emoji">📚</div><b>Mes cours</b><span>Ressources pédagogiques</span></button>
+ <button class="tile" onclick="go('profile')"><div class="emoji">👤</div><b>Mon profil</b><span>Informations et progression</span></button>
+ <button class="tile" onclick="teacherInfo()"><div class="emoji">👩🏽‍🏫</div><b>Espace enseignant</b><span>Suivi et accompagnement</span></button></div>
+ <section class="card"><h2>Notre engagement</h2><p class="muted">L'intelligence artificielle peut proposer des pistes. L'enseignant apporte son expertise et échange avec l'élève. Les décisions d'orientation ne sont jamais prises par l'IA seule.</p></section>`;
+}
+function start(){name=document.getElementById('nm').value.trim();role=document.getElementById('rl').value;if(!name||!role){alert('Indique ton prénom et choisis ton profil.');return}save();render()}
+function learn(){app.innerHTML=`<section class="card"><h2>Bibliothèque de cours</h2><p class="muted">Des modules de découverte et de compétences. Les contenus scolaires détaillés seront ajoutés avec les enseignants.</p></section>${courses.map(c=>`<section class="card"><span class="badge">${c.tag}</span><h3 style="margin-top:9px">${c.title}</h3><div class="muted">${c.level}</div><p class="muted">${c.desc}</p><button class="secondary" onclick="alert('Ce module sera enrichi avec des leçons et des activités lors de la prochaine étape.')">Découvrir le module</button></section>`).join('')}`}
+function test(){
+ let done=answers.length===questions.length;
+ app.innerHTML=`<section class="card"><h2>Questionnaire de découverte des aptitudes</h2><p class="muted">Réponds selon tes préférences. Ce questionnaire est exploratoire : il ne constitue ni un diagnostic, ni une décision d'orientation.</p><div class="bar"><i style="width:${answers.length/questions.length*100}%"></i></div><div class="muted">${answers.length} / ${questions.length} réponses</div></section>
+ ${done?`<section class="card"><h2>Questionnaire terminé !</h2><p class="muted">Tes réponses sont enregistrées sur cet appareil. Elles peuvent servir de point de départ à un échange avec ton enseignant.</p><button class="primary" onclick="showResults()">Voir mon récapitulatif</button> <button class="secondary" onclick="answers=[];save();render()">Recommencer</button><div id="result"></div></section>`:
+ questions.map((q,i)=>`<section class="card"><h3>${i+1}. ${q.q}</h3>${q.a.map((a,j)=>`<label class="choice"><input type="radio" name="q${i}" value="${j}" ${answers[i]===j?'checked':''}>${a}</label>`).join('')}${i===answers.length?`<button class="primary" onclick="answer(${i})">Valider ma réponse</button>`:''}</section>`).join('')}`;
+}
+function answer(i){let v=document.querySelector(`input[name="q${i}"]:checked`);if(!v){alert('Choisis une réponse avant de continuer.');return}answers[i]=Number(v.value);save();render()}
+function showResults(){let box=document.getElementById('result');box.innerHTML='<h3>Mes réponses</h3>'+answers.map((a,i)=>`<p class="muted">${i+1}. ${questions[i].a[a]}</p>`).join('')+'<p class="muted"><b>À retenir :</b> discute de ces réponses avec un enseignant. Elles ne déterminent pas un métier ou une filière à elles seules.</p>'}
+function profile(){app.innerHTML=`<section class="card"><h2>Mon profil</h2>${name?`<p><b>${esc(name)}</b></p><p class="muted">Profil : ${esc(role)}</p>`:'<p class="muted">Tu peux créer ton profil depuis l’accueil.</p>'}<p class="muted">Questionnaire : ${answers.length}/${questions.length} réponses complétées.</p><button class="secondary" onclick="go('home')">Retour à l'accueil</button><button class="ghost" onclick="if(confirm('Effacer les données enregistrées sur cet appareil ?')){localStorage.clear();role='';name='';answers=[];render()}">Effacer mes données locales</button></section><section class="card"><h3>Confidentialité</h3><p class="muted">Cette démonstration conserve uniquement le prénom, le profil et les réponses du questionnaire dans le stockage local de ce navigateur. Aucune donnée n'est envoyée à un serveur.</p></section>`}
+function teacherInfo(){alert('Espace enseignant : prévu pour la prochaine étape. Il permettra de consulter les profils avec autorisation, ajouter des observations et accompagner les décisions.')}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
